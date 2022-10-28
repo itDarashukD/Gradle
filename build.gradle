@@ -70,3 +70,75 @@ task differntApproachesToMethodsWritings {
         repositories({ println "in a closure" })
     }
 }
+
+task helloName {
+    doLast {
+        println hello.name
+        println project.hello.name
+
+        println tasks.hello.name
+        println tasks['hello'].name
+        println tasks.helloName.name
+
+        println tasks.getByPath('hello').path
+        println tasks.getByPath(':hello').path
+    }
+}
+
+
+// second task Y depends on first X and will developed after first
+task taskX {
+    doLast {
+        println 'taskX'
+    }
+}
+task taskY(dependsOn: 'taskX') {
+    doLast {
+        println "taskY"
+    }
+}
+
+// another one possibility
+task taskA {
+    doLast {
+        println 'taskA'
+    }
+}
+task taskB {
+    doLast {
+        println 'taskB'
+    }
+}
+taskA.dependsOn taskB
+
+
+// description of task
+task copy(type: Copy) {
+    description 'Copies the resource directory to the target directory.'
+    from 'resources'
+    into 'target'
+    include('**/*.txt', '**/*.xml', '**/*.properties')
+    println("description applied") // <-- this description will displayed
+}
+
+
+
+//If
+
+task eclipse {
+    doLast {
+        println 'Hello Eclipse'
+    }
+}
+
+// #1st approach - closure returning true, if the task should be executed, false if not.
+eclipse.onlyIf {
+    project.hasProperty('usingEclipse')
+}
+
+// #2nd approach - alternatively throw an StopExecutionException() like this
+eclipse.doFirst {
+    if (!usingEclipse) {
+        throw new StopExecutionException()
+    }
+}
