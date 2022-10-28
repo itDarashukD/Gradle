@@ -1,0 +1,72 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task hello {
+    doLast {
+        print 'hello Dzmitry'
+    }
+}
+
+task upper {
+    doLast {
+        String expString = 'TUTORIALS point'
+        println "Original: " + expString
+        println "Upper case: " + expString.toUpperCase()
+
+    }
+}
+
+task count {
+    doLast {
+        4.times {
+            print "$it"
+        }
+    }
+}
+
+task groovyJDK {
+    doLast {
+        String myName = "Marc";
+        myName.each() {
+            println "${it}"
+        };
+    }
+}
+
+task projectInfo {
+    doLast {
+        println project.buildDir
+        println getProject().getTasks()
+        println getProject().getPath()
+
+    }
+}
+
+task differntApproachesToMethodsWritings {
+    doLast {
+        repositories {
+            println "in a closure"
+        }
+        repositories() {
+            println "in a closure"
+        }
+        repositories({ println "in a closure" })
+    }
+}
