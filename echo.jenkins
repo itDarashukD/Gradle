@@ -4,7 +4,7 @@ pipeline {
          pollSCM '* * * * *'
     }
     stages {
-        stage('Build') {
+        stage('Build1') {
             steps {
                 echo 'Building..'
             }
@@ -19,5 +19,12 @@ pipeline {
                 echo 'Deploying....'
             }
         }
+      
+        stage('Build') { 
+            steps {
+                bat 'mvn -B -DskipTests clean package' 
+            }
+        }
     }
-}
+  
+ 
